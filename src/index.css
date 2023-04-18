@@ -21,6 +21,19 @@ header .logo {
   font-weight: 600;
   font-size: 20px;
 }
+header ul.nav {
+  float: right;
+  list-style: none;
+}
+header ul.nav li {
+  display: inline;
+  margin-left: 25px;
+  cursor: pointer;
+  transition: opacity 0.5s;
+}
+header ul.nav li:hover {
+  opacity: 0.7;
+}
 
 header .presentation {
   position: relative;
