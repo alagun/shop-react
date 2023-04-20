@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function Header() {
+  let [cartOpen, setCartOpen] = useState(false);
   return (
     <header>
       <div>
@@ -10,6 +12,12 @@ export default function Header() {
           <li>Контакты</li>
           <li>Кабинет</li>
         </ul>
+        <FaShoppingCart
+          onClick={() => setCartOpen((cartOpen = !cartOpen))}
+          className={`shop__cart__button ${cartOpen && "active"}`}
+        />
+
+        {cartOpen && <div className="shop__cart"></div>}
       </div>
       <div className="presentation"></div>
     </header>
