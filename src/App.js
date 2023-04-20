@@ -2,12 +2,14 @@ import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Items from "./components/Items";
+import Categories from "./components/Categories";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       orders: [],
+      currentItems: [],
       items: [
         {
           id: 1,
@@ -22,7 +24,7 @@ class App extends React.Component {
           title: "Кровать люкс",
           img: "bedroom-suite (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "bed",
           price: "1099,99",
         },
         {
@@ -30,7 +32,7 @@ class App extends React.Component {
           title: "Синий диван",
           img: "blue-sofa (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "sofa",
           price: "749,99",
         },
         {
@@ -46,7 +48,7 @@ class App extends React.Component {
           title: "Диван модерн",
           img: "chic-modern-sofa_1 (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "sofa",
           price: "849,99",
         },
         {
@@ -62,7 +64,7 @@ class App extends React.Component {
           title: "Кровать",
           img: "dark-blue-wall (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "bed",
           price: "1219,99",
         },
         {
@@ -70,7 +72,7 @@ class App extends React.Component {
           title: "Стол",
           img: "luxury-table (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "table",
           price: "489,99",
         },
         {
@@ -78,7 +80,7 @@ class App extends React.Component {
           title: "Тумба из дерева",
           img: "minimal-sideboard-table (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "table",
           price: "649,99",
         },
         {
@@ -86,7 +88,7 @@ class App extends React.Component {
           title: "Зеркало",
           img: "mirror (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "mirror",
           price: "149,99",
         },
         {
@@ -94,7 +96,7 @@ class App extends React.Component {
           title: "Стол модерн",
           img: "modern-table (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "table",
           price: "199,99",
         },
         {
@@ -110,7 +112,7 @@ class App extends React.Component {
           title: "Тумба модерн",
           img: "wall-mockup-sideboar-table (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "table",
           price: "599,99",
         },
         {
@@ -118,7 +120,7 @@ class App extends React.Component {
           title: "Диван белый",
           img: "white-sofa (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "sofa",
           price: "1499,99",
         },
         {
@@ -126,23 +128,37 @@ class App extends React.Component {
           title: "Стол-тумба",
           img: "wooden-sideboard-table (1).jpg",
           desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam architecto porro modi, unde velit doloremque! Asperiores voluptates rem voluptas repellendus. Vero, adipisci? Maiores modi cumque fuga veritatis dolorum expedita perspiciatis.",
-          category: "chair",
+          category: "table",
           price: "649,99",
         },
       ],
     };
+    this.state.currentItems = this.state.items;
     this.addToOrder = this.addToOrder.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
+    this.chooseCategory = this.chooseCategory.bind(this);
   }
   render() {
     return (
       <div className="wrapper">
         <Header orders={this.state.orders} onDelete={this.deleteOrder} />
-        <Items items={this.state.items} onAdd={this.addToOrder} />
+        <Categories chooseCategory={this.chooseCategory} />
+        <Items items={this.state.currentItems} onAdd={this.addToOrder} />
         <Footer />
       </div>
     );
   }
+
+  chooseCategory(category) {
+    if (category === "all") {
+      this.setState({ currentItems: this.state.items });
+      return;
+    }
+    this.setState({
+      currentItems: this.state.items.filter((el) => el.category === category),
+    });
+  }
+
   deleteOrder(id) {
     this.setState({ orders: this.state.orders.filter((el) => el.id !== id) });
   }
